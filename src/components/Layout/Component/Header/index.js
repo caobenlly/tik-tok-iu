@@ -23,9 +23,7 @@ export default function Header() {
   //     setSearchResult([1, 2, 3]);
   //   }, 0);
   // });
-  const Loginsssss = () => {
-    console.log("sssss");
-  };
+  
   return (
     <header className={cx("wrapper")}>
       <div className={cx("inner")}>
@@ -63,7 +61,7 @@ export default function Header() {
           </div>
         </Tippy>
         <div className={cx("actions")}>
-          <Button onClick={Loginsssss}>Loginsssss</Button>
+          <Button primary>Log in</Button>
         </div>
       </div>
     </header>
