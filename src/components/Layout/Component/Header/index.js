@@ -8,6 +8,9 @@ import {
   faEllipsisVertical,
   faMagnifyingGlass,
   faSpinner,
+  faEarthAsia,
+  faCircleQuestion,
+  faKeyboard,
 } from "@fortawesome/free-solid-svg-icons";
 // import Tippy from "@tippyjs/react";
 import Tippy from "@tippyjs/react/headless";
@@ -16,6 +19,37 @@ import AccountItem from "../../../AccountItem";
 import Button from "../../../Button";
 import { useState } from "react";
 import Menu from "../../../Popper/Menu/Menu";
+
+const MENU_ITEMS = [
+  {
+    icon: <FontAwesomeIcon icon={faEarthAsia} />,
+    title: "English",
+    children: {
+      title: "Language",
+      data: [
+        {
+          type: "language",
+          code: "en",
+          title: "English",
+        },
+        {
+          type: "language",
+          code: "vi",
+          title: "Tiếng Việt",
+        },
+      ],
+    },
+  },
+  {
+    icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+    title: "Feedback and help",
+    to: "/feedback",
+  },
+  {
+    icon: <FontAwesomeIcon icon={faKeyboard} />,
+    title: "Keyboard shortcuts",
+  },
+];
 
 const cx = className.bind(styles);
 export default function Header() {
@@ -38,16 +72,14 @@ export default function Header() {
           interactive
           visible={searchResult.length > 0}
           render={(attrs) => (
-          
-              <PopperWrapper>
-                 <div className={cx("search-result")} tabIndex="-1" {...attrs}>
-                  <h4 className={cx("search-title")}>Accounts</h4>
-                  <AccountItem />
-                  <AccountItem />
-                  <AccountItem />
-                </div>
-              </PopperWrapper>
-          
+            <PopperWrapper>
+              <div className={cx("search-result")} tabIndex="-1" {...attrs}>
+                <h4 className={cx("search-title")}>Accounts</h4>
+                <AccountItem />
+                <AccountItem />
+                <AccountItem />
+              </div>
+            </PopperWrapper>
           )}
         >
           <div className={cx("search")}>
@@ -68,8 +100,8 @@ export default function Header() {
         <div className={cx("actions")}>
           <Button text>Upload</Button>
           <Button primary>Log in</Button>
-          <Menu>
-          <button className={cx("more-btn")}>
+          <Menu items={MENU_ITEMS}>
+            <button className={cx("more-btn")}>
               <FontAwesomeIcon icon={faEllipsisVertical} />
             </button>
           </Menu>
