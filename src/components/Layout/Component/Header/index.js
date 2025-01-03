@@ -11,6 +11,7 @@ import {
   faEarthAsia,
   faCircleQuestion,
   faKeyboard,
+  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 // import Tippy from "@tippyjs/react";
 import Tippy from "@tippyjs/react/headless";
@@ -19,6 +20,7 @@ import AccountItem from "../../../AccountItem";
 import Button from "../../../Button";
 import { useState } from "react";
 import Menu from "../../../Popper/Menu/Menu";
+import { InboxIcon, MessageIcon, UploadIcon } from "../../../Icons";
 
 const MENU_ITEMS = [
   {
@@ -53,6 +55,7 @@ const MENU_ITEMS = [
 
 const cx = className.bind(styles);
 export default function Header() {
+  const currentUser = true;
   const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
@@ -97,15 +100,46 @@ export default function Header() {
             </button>
           </div>
         </Tippy>
-        <div className={cx("actions")}>
-          <Button text>Upload</Button>
-          <Button primary>Log in</Button>
-          <Menu items={MENU_ITEMS}>
-            <button className={cx("more-btn")}>
-              <FontAwesomeIcon icon={faEllipsisVertical} />
-            </button>
-          </Menu>
-        </div>
+
+       
+          <div className={cx("actions")}>
+            {currentUser ? (
+              <>
+                <Tippy
+                  delay={[0, 50]}
+                  content="Upload video"
+                  placement="bottom"
+                >
+                  <button className={cx("action-btn")}>
+                    <UploadIcon />
+                  </button>
+                </Tippy>
+                <Tippy delay={[0, 50]} content="Message" placement="bottom">
+                  <button className={cx("action-btn")}>
+                    <MessageIcon />
+                  </button>
+                </Tippy>
+                <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
+                  <button className={cx("action-btn")}>
+                    <InboxIcon />
+                    <span className={cx("badge")}>12</span>
+                  </button>
+                </Tippy>
+              </>
+            ) : (
+              <>
+                <Button text>Upload</Button>
+                <Button primary>Log in</Button>
+              </>
+            )}
+
+            <Menu items={MENU_ITEMS}>
+              <button className={cx("more-btn")}>
+                <FontAwesomeIcon icon={faEllipsisVertical} />
+              </button>
+            </Menu>
+          </div>
+        
       </div>
     </header>
   );

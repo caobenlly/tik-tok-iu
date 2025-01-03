@@ -5,19 +5,36 @@ import PopperWrapper from "../../Popper/Wrapper.js";
 import classNames from "classnames/bind";
 import MenuItem from "./MenuItem.js";
 import Headers from "./Header.js";
-
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
-export default function Menu({children, items =[]}) {
+
+const defaultFn = () => {};
+
+export default function Menu({ children, items = [], hideOnClick = false, onChange = defaultFn }) {
 
   const [history, setHistory] = useState([{ data: items }]);
   const current = history[history.length - 1];
 
-    const renderItems = () => {
-         return current.data.map(items,index) => {
-          
-         }
-    };
+  const renderItems = () => {
+    return current.data.map((item, index) => {
+        const isParent = !!item.children;
+
+        return (
+            <MenuItem
+                key={index}
+                data={item}
+                onClick={() => {
+                    if (isParent) {
+                        setHistory((prev) => [...prev, item.children]);
+                    } else {
+                        onChange(item);
+                    }
+                }}
+            />
+        );
+    });
+};
   return (
     <Tippy
       interactive
@@ -26,11 +43,22 @@ export default function Menu({children, items =[]}) {
       render={(attrs) => (
         <div className={cx("menu-list")} tabIndex="-1" {...attrs}>
            <PopperWrapper className={cx('menu-popper')}>
-            <Headers/>
+            {
+              history.length > 1 && (
+                <Headers 
+                title="Language"
+                onBack={()=>{
+                  setHistory((prev) => prev.slice(0,prev.length -1))
+                }}
+                />
+              )
+            }
+            
           {renderItems()}
           </PopperWrapper>
         </div>
       )}
+      onHidden={()=>setHistory((prev) =>prev.slice(0,1))}
     >
     {children}
     </Tippy>

@@ -22,4 +22,5 @@ const privateRoutes = [
 ]
 
 
+
 export {publicRoutes,privateRoutes}
